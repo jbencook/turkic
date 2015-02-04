@@ -20,6 +20,8 @@ handlers = {}
 import logging
 logger = logging.getLogger("turkic.server")
 
+DEBUG_SERVER = True
+
 try:
     from wsgilog import log as wsgilog
 except ImportError:
@@ -54,6 +56,8 @@ def application(environ, start_response):
     logger.info("Got HTTP request: {0}".format("/".join(path)))
 
     try:
+        if DEBUG_SERVER and path[0] == 'server':
+            path = path[1:]
         action = path[0]
     except IndexError:
         raise Error404("Missing action.")
@@ -67,7 +71,8 @@ def application(environ, start_response):
     try:
         args = path[1:]
         if post:
-            postdata = environ["wsgi.input"].read()
+            length = int(environ.get('CONTENT_LENGTH', '0'))
+            postdata = environ["wsgi.input"].read(length)
             if post == "json":
                 args.append(json.loads(postdata))
             else:
