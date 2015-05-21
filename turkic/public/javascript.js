@@ -442,8 +442,10 @@ function server_request(action, parameters, callback)
             callback(data);
         },
         error: function(xhr, textstatus) {
-            console.log(xhr.responseText);
-            death("Server Error");
+            if (textstatus != "abort") {
+                console.log(xhr.responseText);
+                death("Server Error");
+            }
         }
     });
 }
@@ -461,8 +463,10 @@ function server_post(action, parameters, data, callback)
             callback(data);
         },
         error: function(xhr, textstatus) {
-            console.log(xhr.responseText);
-            death("Server Error");
+            if (textstatus != "abort") {
+                console.log(xhr.responseText);
+                death("Server Error");
+            }
         }
     });
 }
