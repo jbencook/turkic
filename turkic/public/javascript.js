@@ -435,7 +435,7 @@ function server_request(action, parameters, callback)
 {
     var url = server_geturl(action, parameters);
     console.log("Server request: " + url);
-    $.ajax({
+    return $.ajax({
         url: url,
         dataType: "json",
         success: function(data) {
@@ -452,7 +452,7 @@ function server_post(action, parameters, data, callback)
 {
     var url = server_geturl(action, parameters);
     console.log("Server post: " + url);
-    $.ajax({
+    return $.ajax({
         url: url,
         dataType: "json",
         type: "POST",
